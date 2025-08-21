@@ -1,0 +1,167 @@
+<html> 
+  <head>
+    <title>Byte2Bite | Home</title> 
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Londrina+Solid:wght@100;300;400;900&display=swap');
+    </style>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#f57c00">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="icon-192.png">
+  </head>
+
+  <body>
+    <h1 id="MainText">Byte2Bite</h1>
+    <button id="Recipes" class="recipe" onclick="location.href='recipe.html'">Find Recipes</button>
+    <button id="Pantry" class="pantry" onclick="location.href='pantry.html'">Pantry</button>
+    <button id="themeToggle" style="position: absolute; top: 20px; right: 20px; z-index: 1000;" class="themeToggle">🌙</button>
+
+  </body>
+  <style>
+
+    body {
+      background-color: #fdfaf7;
+      padding: 24px;
+      color: #2a1d0f;
+      transition: background-color 0.3s ease;
+      font-size: 3em;
+      min-height: 100vh;
+      box-sizing: border-box;
+      font-family: "Fredoka", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-style: normal;
+      font-variation-settings: "wdth" 100;
+    }
+
+    h1 {
+      position: static;
+      margin: 36px 0 44px 0;
+      text-align: center;
+      font-size: 2.3em;
+      font-family: "Londrina Solid", sans-serif;
+      font-weight: 900;
+      font-style: normal;
+      transition: color 0.3s ease;
+    }
+
+    button {
+      width: 92vw;
+      max-width: 370px;
+      height: 62px;
+      margin: 18px auto;
+      display: block;
+      border: none;
+      border-radius: 13px;
+      background-color: #eddccb;
+      font-size: 1.18em;
+      font-family: "Fredoka", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-style: normal;
+      font-variation-settings: "wdth" 100;
+      color: #2a1d0f;
+      transition: background-color color 0.3s ease;
+      box-shadow: 0 2px 8px #0001;
+    }
+
+    .themeToggle {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      font-size: 2.5em;
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    button {
+      position: static;
+      margin-bottom: 32px;
+    }
+
+    button:active {
+      background-color: #a18d78;
+    }
+
+    button, .tab-btn, .pantry {
+      white-space: normal !important;
+      overflow-wrap: break-word !important;
+      word-break: break-word !important;
+      text-overflow: ellipsis;
+      line-height: 1.15;
+    }
+    .tab-btn {
+      max-width: 40vw;
+      min-width: 0;
+      overflow: hidden;
+      text-align: center;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    button, .searchRecipeBtn, .pantry {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    #Pantry, #Recipes {
+      width: 125vw;
+      max-width: 550px;
+      height: 125px;
+      margin: 22px auto;
+      border-radius: 16px;
+      font-size: 1.45em;
+      font-family: "Fredoka", sans-serif;
+      font-weight: 700;
+      background-color: #eddccb;
+      color: #2a1d0f;
+      box-shadow: 0 3px 12px #0002;
+      white-space: normal;
+      overflow-wrap: break-word;
+      padding: 0 18px;
+      display: block;
+    }
+        /* Dark mode styles */
+    body.dark-mode {
+      background-color: #181818;
+      color: #f5f5f5;
+    }
+
+    body.dark-mode button {
+      background-color: #333 !important;
+      color: #f5f5f5 !important;
+      border-color: #555 !important;
+    }
+    body.dark-mode h1 {
+      color: #f5f5f5;
+    }
+  </style>
+  <script>
+    const themeToggle = document.getElementById('themeToggle');
+    function setTheme(mode) {
+      if (mode === 'dark') {
+        document.body.classList.add('dark-mode');
+        themeToggle.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+      } else {
+        document.body.classList.remove('dark-mode');
+        themeToggle.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+      }
+    }
+    themeToggle.onclick = function() {
+      setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+    };
+    setTheme(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
+    
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('service-worker.js');
+      });
+    }
+  </script>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "Byte2Bite",
+  "short_name": "Byte2Bite",
+  "start_url": "./home.html",
+  "display": "standalone",
+  "background_color": "#fdfaf7",
+  "theme_color": "#f57c00",
+  "description": "A cooking app to manage your pantry and find recipes.",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-192.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

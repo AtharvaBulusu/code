@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Londrina+Solid:wght@100;300;400;900&display=swap');
+  </style>
+  <title>Byte2Bite | Pantry</title>
+  <style>
+    body {
+      background-color: #fdfaf7;
+      padding: 24px;
+      color: #2a1d0f;
+      transition: background-color 0.3s ease;
+      font-size: 1.35em;
+      min-height: 100vh;
+      box-sizing: border-box;
+      font-family: "Fredoka", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-style: normal;
+      font-variation-settings: "wdth" 100;
+    }
+
+    h1 {
+      position: static;
+      margin: 36px 0 44px 0;
+      text-align: center;
+      font-size: 2.3em;
+      font-family: "Londrina Solid", sans-serif;
+      font-weight: 900;
+      font-style: normal;
+      transition: color 0.3s ease;
+    }   
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 14px;
+      max-width: 1100px;
+      margin: auto;
+    }
+
+    .ingredient-card {
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      padding: 14px 0 0 0;
+      transition: background-color 0.3s ease;
+      font-size: 1.05em;
+      min-height: 140px;
+    }
+
+    .ingredient-card label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      transition: background-color color 0.3s ease;
+    }
+
+    .ingredient-card input {
+      width: 100%;
+      padding: 6px;
+      font-size: 14px;
+      border: 1px solid #aaa;
+      border-radius: 4px;
+      margin-bottom: 8px;
+      transition: background-color 0.3s ease;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      margin-top: 4px;
+      transition: background-color 0.3s ease;
+    }
+
+    .buttons button,
+    .mode-toggle {
+      flex: 1;
+      padding: 4px 2px;
+      font-size: 1em;
+      min-width: 44px;
+      max-width: 60px;
+      height: 32px;
+      line-height: 1.1;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background-color: #eee;
+      transition: background-color color 0.3s ease;
+      display: inline-block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .mode-toggle {
+      background-color: #ddd;
+      font-weight: bold;
+      margin-bottom: 6px;
+      transition: background-color 0.3s ease;
+      width: 28px;
+      height: 28px;
+      font-size: 1.1em;
+      padding: 0;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ideal { background-color: #d4edda; }
+    .close { background-color: #fff3cd; }
+    .far   { background-color: #f8d7da; }
+
+    button {
+      width: 92vw;
+      max-width: 370px;
+      height: 62px;
+      margin: 18px auto;
+      display: block;
+      border: none;
+      border-radius: 13px;
+      background-color: #eddccb;
+      font-size: 1.18em;
+      font-family: "Fredoka", sans-serif;
+      font-optical-sizing: auto;
+      font-weight: 700;
+      font-style: normal;
+      font-variation-settings: "wdth" 100;
+      color: #2a1d0f;
+      transition: background-color color 0.3s ease;
+      box-shadow: 0 2px 8px #0001;
+    }
+
+    .themeToggle {
+      width: 64px;
+      height: 64px;
+      border-radius: 20px;
+      font-size: 2.5em;
+      position: fixed;
+      top: 14px;
+      right: 14px;
+      z-index: 1000;
+      transition: background-color 0.3s ease;
+    }
+
+    .recipe, .pantry {
+      position: static;
+      margin-bottom: 32px;
+    }
+
+    .pantry {
+      font-size: 50px;
+    }
+
+    button:active {
+      background-color: #a18d78;
+    }
+
+    button, .tab-btn, .aiRecipeSuggestions, .searchRecipeBtn, .pantry {
+      white-space: normal !important;
+      overflow-wrap: break-word !important;
+      word-break: break-word !important;
+      text-overflow: ellipsis;
+      line-height: 1.15;
+    }
+    .tab-btn {
+      max-width: 40vw;
+      min-width: 0;
+      overflow: hidden;
+      text-align: center;
+      padding-left: 0;
+      padding-right: 0;
+    }
+    .aiRecipeSuggestions, .searchRecipeBtn, .pantry {
+      max-width: 100%;
+      min-width: 0;
+    }
+    button, .searchRecipeBtn, .pantry {
+      padding-left: 12px;
+      padding-right: 12px;
+    }
+    .search-row input[type="text"] {
+      min-width: 0;
+      max-width: 100%;
+      box-sizing: border-box;
+    }
+    .recipe-title, .card-content, .recipe-time {
+      word-break: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      text-align: center;
+    }
+
+        .tab-header {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 18px;
+      margin-bottom: 30px;
+    }
+    .tab-btn {
+      height: fit-content;
+      width: fit-content;
+      display: flex;
+      color:#e3e3e3;
+      background-color: #949494;
+      font-size: 3.5em;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: none;
+      padding: 0 16px;
+      cursor: pointer;
+      border-radius: 12px;
+      transition: color 0.2s, border-color 0.2s;
+      outline: none;
+      font-family: "Londrina Solid", sans-serif;
+      font-weight: 1500;
+      font-style: normal;
+      transition: color 0.3s ease;
+    }
+    .tab-btn.active {
+      color: #000000;
+      background:#82e974;
+      z-index: 2;
+      position: relative;
+      font-size: 4em;
+    }
+
+        /* Dark mode styles */
+    body.dark-mode {
+      background-color: #181818;
+      color: #f5f5f5;
+    }
+    body.dark-mode .ingredient-card {
+      background-color: #232323 !important;
+      color: #f5f5f5 !important;
+      border-color: #555 !important;
+    }
+    body.dark-mode button {
+      background-color: #333 !important;
+      color: #f5f5f5 !important;
+      border-color: #555 !important;
+    }
+    body.dark-mode h1 {
+      color: #f5f5f5;
+    }
+    body.dark-mode input[type="number"] {
+      background-color: #232323;
+      color: #f5f5f5;
+      border: 1px solid #555;
+    }
+    body.dark-mode input[type="text"] {
+      background-color: #232323;
+      color: #f5f5f5;
+      border: 1px solid #555;
+    }
+    body.dark-mode label {
+      color: #f5f5f5;
+    }
+    body.dark-mode .ideal { background-color: #295c2e !important; color: #f5f5f5 !important; }
+    body.dark-mode .close { background-color: #7a6a2b !important; color: #f5f5f5 !important; }
+    body.dark-mode .far   { background-color: #6a2323 !important; color: #f5f5f5 !important; }
+
+    body.dark-mode .tab-header {
+      background: #181818;
+      border-radius: 12px 12px 0 0;
+      box-shadow: 0 2px 8px #000a;
+      padding: 8px 0 0 0;
+    }
+    body.dark-mode .tab-btn {
+      color: #bdbdbd;
+      background: none;
+    }
+    body.dark-mode .tab-btn.active {
+      color: #ffe6b3;
+      background: linear-gradient(90deg, #3a2c1a 60%, #232323 100%);
+      border-radius: 12px;
+      z-index: 2;
+      position: relative;
+    }
+    body.dark-mode .tab-btn:not(.active):hover {
+      color: #ffe6b3;
+      background: #232323;
+      border-radius: 8px 8px 0 0;
+      z-index: 1;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+    <div class="tab-header fade-in">
+      <button class="tab-btn active" id="pantryTab">Pantry</button>
+      <button class="tab-btn" id="recipesTab">Recipes</button>
+    </div>
+    <button id="themeToggle" style="position: absolute; top: 20px; right: 20px; z-index: 1000;" class="themeToggle fade-in">🌙</button>
+    <div class="grid-container fade-in" id="ingredientGrid"></div>
+
+  <script>
+const ingredients = [
+  "All-purpose flour", "Granulated sugar", "Brown sugar", "Baking powder", "Baking soda",
+  "Salt", "Black pepper", "Olive oil", "Vegetable oil", "Soy sauce",
+  "Garlic powder", "Onion powder", "Paprika", "Chili powder", "Cumin",
+  "Oregano", "Basil", "Thyme", "Cinnamon", "Bay leaves",
+  "Milk", "Butter", "Cheese", "Eggs", "Heavy cream",
+  "Chicken breast", "Ground beef", "Bacon", "Tofu", "Rice",
+  "Pasta", "Bread", "Lentils", "Canned beans", "Onion",
+  "Garlic", "Carrot", "Bell pepper", "Tomato", "Lemon",
+  "Lime", "Apple", "Banana", "Ketchup", "Mayonnaise",
+  "Mustard", "Vinegar", "Honey", "Tomato paste", "Cornstarch"
+];
+
+const idealQuantities = {
+  "All-purpose flour": 500, "Granulated sugar": 250, "Salt": 50, "Eggs": 12,
+  "Milk": 1000, "Olive oil": 250, "Butter": 200, "Chicken breast": 500,
+  "Onion": 3, "Garlic": 10
+};
+
+const ingredientUnits = {
+  "All-purpose flour": "g", "Brown sugar": "g", "Granulated sugar": "g",
+  "Salt": "g", "Baking powder": "g", "Baking soda": "g",
+  "Milk": "ml", "Heavy cream": "ml", "Olive oil": "ml", "Vegetable oil": "ml",
+  "Soy sauce": "ml", "Vinegar": "ml", "Ketchup": "ml", "Mayonnaise": "ml",
+  "Honey": "ml", "Tomato paste": "g", "Cornstarch": "g",
+  "Eggs": "pcs", "Onion": "pcs", "Garlic": "cloves", "Banana": "pcs", "Lemon": "pcs", "Apple": "pcs"
+};
+
+const grid = document.getElementById("ingredientGrid");
+
+ingredients.forEach(name => {
+  const card = document.createElement("div");
+  card.className = "ingredient-card";
+
+  const label = document.createElement("label");
+  const ideal = idealQuantities[name] || 100;
+  label.textContent = `${name} (Ideal: ${ideal})`;
+
+
+  const modeToggle = document.createElement("button");
+  modeToggle.className = "mode-toggle";
+  modeToggle.textContent = "➕";
+  let subtracting = false;
+
+  const inputContainer = document.createElement("div");
+  inputContainer.style.display = "flex";
+  inputContainer.style.alignItems = "center";
+
+  const input = document.createElement("input");
+  input.type = "number";
+  input.placeholder = "Amount";
+  input.min = "0";
+  input.step = "any";
+  input.dataset.name = name;
+  input.style.flex = "1";
+
+  const unit = ingredientUnits[name] || "";
+  const unitSpan = document.createElement("span");
+  unitSpan.textContent = ` ${unit}`;
+  unitSpan.style.marginLeft = "4px";
+
+  const saved = localStorage.getItem(`ingredient-${name}`);
+  if (saved) input.value = saved;
+
+  const updateColor = () => {
+    const val = parseFloat(input.value);
+    const ideal = idealQuantities[name] || 100;
+    card.classList.remove("ideal", "close", "far");
+    if (!val || val <= 0) return;
+    const ratio = val / ideal;
+    if (ratio >= 1) card.classList.add("ideal");
+    else if (ratio >= 0.6) card.classList.add("close");
+    else card.classList.add("far");
+  };
+
+  input.addEventListener("input", () => {
+    localStorage.setItem(`ingredient-${name}`, input.value);
+    updateColor();
+    // Optionally, update a summary of pantry in localStorage
+    const pantry = {};
+    document.querySelectorAll('input[type="number"]').forEach(inp => {
+      pantry[inp.dataset.name] = parseFloat(inp.value) || 0;
+    });
+    localStorage.setItem('userIngredients', JSON.stringify(pantry));
+  });
+
+  const buttons = document.createElement("div");
+  buttons.className = "buttons";
+
+  const amountButtons = [1, 10, 100].map(amount => {
+    const btn = document.createElement("button");
+    btn.textContent = `+${amount}`;
+    btn.onclick = () => {
+      const current = parseFloat(input.value || 0);
+      const updated = subtracting ? Math.max(0, current - amount) : current + amount;
+      input.value = updated;
+      localStorage.setItem(`ingredient-${name}`, updated);
+      updateColor();
+    };
+    return btn;
+  });
+
+  const refreshButtonLabels = () => {
+    amountButtons.forEach((btn, i) => {
+      const amount = [1, 10, 100][i];
+      btn.textContent = subtracting ? `−${amount}` : `+${amount}`;
+    });
+  };
+
+  modeToggle.onclick = () => {
+    subtracting = !subtracting;
+    modeToggle.textContent = subtracting ? "➖" : "➕";
+    refreshButtonLabels();
+  };
+
+  amountButtons.forEach(btn => buttons.appendChild(btn));
+  inputContainer.appendChild(input);
+  inputContainer.appendChild(unitSpan);
+
+  updateColor();
+
+  card.appendChild(label);
+  card.appendChild(modeToggle);
+  card.appendChild(inputContainer);
+  card.appendChild(buttons);
+  grid.appendChild(card);
+});
+
+// Theme toggle logic
+const themeToggle = document.getElementById('themeToggle');
+function setTheme(mode) {
+  if (mode === 'dark') {
+    document.body.classList.add('dark-mode');
+    themeToggle.textContent = '☀️';
+    localStorage.setItem('theme', 'dark');
+  } else {
+    document.body.classList.remove('dark-mode');
+    themeToggle.textContent = '🌙';
+    localStorage.setItem('theme', 'light');
+  }
+}
+themeToggle.onclick = function() {
+  setTheme(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+};
+// On load, set theme from localStorage
+setTheme(localStorage.getItem('theme') === 'dark' ? 'dark' : 'light');
+
+// Tab navigation logic
+const pantryTab = document.getElementById('pantryTab');
+const recipesTab = document.getElementById('recipesTab');
+if (pantryTab && recipesTab) {
+  pantryTab.onclick = (e) => { e.preventDefault(); };
+  recipesTab.onclick = (e) => {
+    e.preventDefault();
+    document.querySelectorAll('.fade-in').forEach(el => {
+      el.classList.remove('fade-in');
+      el.classList.add('fade-out');
+      el.style.opacity = 0;
+    });
+    setTimeout(() => {
+      window.location.href = 'recipe.html';
+    }, 400);
+  };
+}
+
+// Speed up fade-in/fade-out (inject style only once)
+if (!document.getElementById('fast-fade-style')) {
+  var style = document.createElement('style');
+  style.id = 'fast-fade-style';
+  style.textContent = '.fade-in { opacity: 0; animation: fadeIn 0.18s cubic-bezier(.4,0,.2,1) forwards !important; } .fade-out { opacity: 0 !important; transition: opacity 0.13s cubic-bezier(.4,0,.2,1) !important; } @keyframes fadeIn { to { opacity: 1; } }';
+  document.head.appendChild(style);
+}
+window.addEventListener('DOMContentLoaded', function() {
+  // Remove fade-in, force reflow, then re-add to trigger animation
+  var fadeEls = document.querySelectorAll('.fade-in');
+  for (var i = 0; i < fadeEls.length; i++) {
+    fadeEls[i].classList.remove('fade-in');
+  }
+  void document.body.offsetWidth;
+  var mainEls = document.querySelectorAll('.tab-header, .themeToggle, .grid-container');
+  for (var j = 0; j < mainEls.length; j++) {
+    mainEls[j].classList.add('fade-in');
+  }
+});
+  </script>
+</body>
+</html>
